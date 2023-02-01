@@ -4,6 +4,8 @@ from sqlalchemy import exc
 import configparser
 from db import db
 from Product import Product
+from flask_swagger_ui import get_swaggerui_blueprint
+from flask_cors import CORS
 
 # Configure the logging package from the logging ini file; defined as an environment variable
 logging.config.fileConfig('/config/logging.ini', disable_existing_loggers=False)
@@ -34,8 +36,15 @@ def get_database_url():
 
 # Configure Flask
 app = Flask(__name__)
+cors = CORS(app, resources={r"*": {"origins": "*"}})
 app.config['SQLALCHEMY_DATABASE_URI'] = get_database_url()
 db.init_app(app)
+SWAGGER_URL = "/docs"
+API_URL = "/static/swagger.json"
+SWAGGERUI_BLUEPRINT = get_swaggerui_blueprint(
+    SWAGGER_URL, API_URL, config={"app_name": "Docker"}
+)
+app.register_blueprint(SWAGGERUI_BLUEPRINT, url_prefix=SWAGGER_URL)
 
 
 # curl -v http://localhost:5000/products

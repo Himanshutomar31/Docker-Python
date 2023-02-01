@@ -1,0 +1,93 @@
+{
+    "openapi":"3.0.0",
+    "info":{
+       "description":"Python Docker",
+       "version":"1.0.0",
+       "title":"Python Docker"
+    },
+    "servers":[
+       {
+          "url":"http://localhost.com/"
+       }
+    ],
+    "components":{
+      "schemas":{
+         "products":{
+            "type": "object"
+         },
+         "product":{
+            "properties":{
+               "name":{
+                  "type":"string"
+               }    
+          }
+         }                        
+      }
+   },
+    "paths":{
+       "/product":{
+          "post":{
+             "summary":"Create a product",
+             "requestBody":{
+                "description":"Create product",
+                "required":true,
+                "content":{
+                   "application/json":{
+                      "schema":{
+                         "$ref":"#/components/schemas/product"
+                      }
+                   }
+                }
+             },
+             "produces":[
+                "application/json"
+             ],
+             "responses":{
+                "200":{
+                   "description":"OK",
+                   "schema":{
+                      "$ref":"#/components/schemas/product"
+                   }
+                },
+                "400":{
+                   "description":"Failed. Bad post data."
+                }
+             },
+             "security": [
+              {
+                "cors_auth": [
+                  "cors.r",
+                  "cors.w"
+                ]
+              }
+            ]          
+          }
+       },
+       "/products":{
+         "get":{
+            "summary":"List products",
+            "produces":[
+               "application/json"
+            ],
+            "responses":{
+               "200":{
+                  "description":"OK",
+                  "schema":{
+                     "$ref":"#/components/schemas/products"
+                  }
+               },
+               "400":{
+                  "description":"Failed. Bad post data."
+               }
+            },
+            "security": [
+             {
+               "cors_auth": [
+                 "cors.r",
+                 "cors.w"
+               ]
+             }
+           ]          
+         }
+      }             
+}}

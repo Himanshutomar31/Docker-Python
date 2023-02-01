@@ -3,8 +3,8 @@ secrets:
     file: db_password.txt
 
 services:
-  productservice:
-    build: product-service
+  productservices:
+    build: .
     volumes:
       - "./config:/config"
     secrets:
